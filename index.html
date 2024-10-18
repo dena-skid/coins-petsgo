@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gem Calculator</title>
+    <style>
+        body {
+            font-family: 'Fredoka One', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            display: inline-block;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: green;
+        }
+        .exact-result {
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>How Many Coins Do You Want to Give?</h1>
+        <input type="number" id="inputValue" min="1" max="100000" placeholder="Enter value" oninput="calculate()">
+        <div class="result" id="result"></div>
+        <div class="exact-result" id="exactResult"></div>
+    </div>
+
+    <script>
+        function formatNumber(number) {
+            if (number >= 1000000000) {
+                return (number / 1000000000).toFixed(2).replace(/\.00$/, '') + 'b';
+            } else if (number >= 1000000) {
+                return (number / 1000000).toFixed(2).replace(/\.00$/, '') + 'm';
+            } else if (number >= 1000) {
+                return (number / 1000).toFixed(2).replace(/\.00$/, '') + 'k';
+            } else {
+                return number.toLocaleString();
+            }
+        }
+
+        function calculate() {
+            let input = parseInt(document.getElementById('inputValue').value);
+            
+            if (isNaN(input) || input < 1) {
+                document.getElementById('result').textContent = "Value must be between 1 and 100,000";
+                document.getElementById('exactResult').textContent = "";
+                return;
+            }
+
+            if (input > 100000) {
+                input = 100000;
+                document.getElementById('inputValue').value = input;
+            }
+
+            let multiplier;
+
+            if (input >= 1 && input <= 4) {
+                multiplier = 750000;
+            } else if (input >= 5 && input <= 9) {
+                multiplier = 800000;
+            } else if (input >= 10 && input <= 99) {
+                multiplier = 800000;
+            } else if (input >= 100 && input <= 499) {
+                multiplier = 800000;
+            } else if (input >= 500 && input <= 999) {
+                multiplier = 800000;
+            } else if (input >= 1000) {
+                multiplier = 810000;
+            }
+
+            const result = input * multiplier;
+            document.getElementById('result').textContent = "Result: " + formatNumber(result) + " Gems";
+            document.getElementById('exactResult').textContent = "" + result.toLocaleString();
+        }
+    </script>
+</body>
+</html>
